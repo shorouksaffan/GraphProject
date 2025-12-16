@@ -1,0 +1,10 @@
+=== Minimum Spanning Tree ===
+
+Total Weight: 10
+
+Edges:
+------
+C - B (Weight: 1)
+A - C (Weight: 2)
+B - D (Weight: 5)
+D - E (Weight: 2)

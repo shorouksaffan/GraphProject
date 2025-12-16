@@ -1,0 +1,57 @@
+# depslib dependency file v1.0
+1765892379 source:c:\users\shorouk\desktop\graphproject\src\graphalgorithms\dijkstra.cpp
+	"Dijkstra.h"
+	"Graph.h"
+	<queue>
+	<climits>
+
+1765893508 c:\users\shorouk\desktop\graphproject\src\graphalgorithms\dijkstra.h
+	"Graph.h"
+	<vector>
+	<string>
+
+1765892321 c:\users\shorouk\desktop\graphproject\src\graphalgorithms\graph.h
+	<string>
+	<vector>
+	<unordered_map>
+
+1765892880 source:c:\users\shorouk\desktop\graphproject\src\graphalgorithms\fileio.cpp
+	"FileIO.h"
+	<fstream>
+	<sstream>
+
+1765892880 c:\users\shorouk\desktop\graphproject\src\graphalgorithms\fileio.h
+	<string>
+	<vector>
+	<tuple>
+
+1765892321 source:c:\users\shorouk\desktop\graphproject\src\graphalgorithms\graph.cpp
+	"Graph.h"
+	"FileIO.h"
+	<fstream>
+	<iostream>
+	<algorithm>
+	<cstdlib>
+
+1765893241 source:c:\users\shorouk\desktop\graphproject\src\graphalgorithms\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	"Graph.h"
+	"FileIO.h"
+	"MST.h"
+	"Dijkstra.h"
+
+1765893508 c:\users\shorouk\desktop\graphproject\src\graphalgorithms\mst.h
+	"Graph.h"
+	<vector>
+	<tuple>
+	<string>
+
+1765882394 source:c:\users\shorouk\desktop\graphproject\src\graphalgorithms\mst.cpp
+	"MST.h"
+	<queue>
+	<algorithm>
+	<iostream>
+	<climits>
+
