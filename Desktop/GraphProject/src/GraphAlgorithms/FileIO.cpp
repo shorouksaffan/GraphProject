@@ -1,63 +1,50 @@
 #include "FileIO.h"
 #include <fstream>
-#include <sstream>
+#include <iostream>
+#include <cstdlib>
 
-using namespace std;
+extern vector<Edge> lastMST;
+extern vector<int> lastPath;
+extern int lastDistance;
 
-FileIO::GraphData FileIO::readGraph(const string& filename) {
-    GraphData data;
-    ifstream file(filename);
+void saveResults() {
+    ofstream mstFile("mst.txt");
+    int total = 0;
 
-    if (!file.is_open()) return data;
-
-    string line;
-    getline(file, line);
-    stringstream first(line);
-    first >> data.numVertices;
-
-    while (getline(file, line)) {
-        if (line.empty() || line[0] == '#') continue;
-
-        stringstream ss(line);
-        string u, v;
-        int w = 1;
-
-        if (ss >> u >> v >> w || ss >> u >> v) {
-            data.edges.push_back(make_tuple(u, v, w));
-        }
+    mstFile << "Minimum Spanning Tree:"<<endl;
+    for (auto e : lastMST) {
+        mstFile << char(e.u + 'A') << " "
+                << char(e.v + 'A') << " "
+                << e.w << endl;
+        total += e.w;
     }
+    mstFile << "Total Weight = " << total << endl;
+    mstFile.close();
 
-    file.close();
-    return data;
+    ofstream pathFile("shortest_path.txt");
+    pathFile << "Shortest Path:\n";
+    for (int i = 0; i < lastPath.size(); i++) {
+        pathFile << char(lastPath[i] + 'A');
+        if (i != lastPath.size() - 1)
+            pathFile << " -> ";
+    }
+    pathFile << "\nTotal Cost = " << lastDistance << endl;
+    pathFile.close();
+
+    cout << "Results saved to mst.txt and shortest_path.txt"<<endl;
 }
 
-bool FileIO::writeMST(const string& filename,
-                     const vector<tuple<string, string, int>>& mstEdges,
-                     int totalWeight) {
-    ofstream file(filename);
-    if (!file.is_open()) return false;
-
-    file << "MST Total Weight: " << totalWeight << "\n";
-    for (const auto& edge : mstEdges) {
-        file << get<0>(edge) << " - " << get<1>(edge)
-             << " (" << get<2>(edge) << ")\n";
+void visualizeGraph() {
+    ofstream dot("graph.dot");
+    dot << "graph G {"<<endl;
+    for (auto e : edges) {
+        dot << char(e.u + 'A') << " -- "
+            << char(e.v + 'A')
+            << " [label=\"" << e.w << "\"];"<<endl;
     }
+    dot << "}"<<endl;
+    dot.close();
 
-    file.close();
-    return true;
-}
-
-bool FileIO::writeShortestPath(const string& filename,
-                              const vector<string>& path,
-                              int totalDistance) {
-    ofstream file(filename);
-    if (!file.is_open()) return false;
-
-    file << "Shortest Path Distance: " << totalDistance << "\nPath: ";
-    for (size_t i = 0; i < path.size(); ++i) {
-        file << path[i] << (i + 1 < path.size() ? " -> " : "\n");
-    }
-
-    file.close();
-    return true;
+    system("dot -Tpng graph.dot -o graph.png");
+    system("start graph.png");
 }

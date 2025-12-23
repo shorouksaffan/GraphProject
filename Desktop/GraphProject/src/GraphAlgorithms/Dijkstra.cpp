@@ -1,53 +1,68 @@
 #include "Dijkstra.h"
-#include "Graph.h"
+#include <iostream>
 #include <queue>
 #include <climits>
+#include <algorithm>
 
-using namespace std;
+vector<int> lastPath;
+int lastDistance = 0;
 
-Dijkstra::PathResult Dijkstra::findShortestPath(const Graph& g,
-                                                const string& s,
-                                                const string& e) {
-    PathResult r;
-    int n = g.getNumVertices();
-    int si = g.getNodeIndex(s);
-    int ei = g.getNodeIndex(e);
+void dijkstra() {
+    vector<vector<pair<int,int>>> adj(V);
+    for (auto e : edges) {
+        adj[e.u].push_back({e.v, e.w});
+        adj[e.v].push_back({e.u, e.w});
+    }
 
-    if (si == -1 || ei == -1) return r;
+    char s, d;
+    cout << "Enter start node: ";
+    cin >> s;
+    cout << "Enter destination node: ";
+    cin >> d;
 
-    vector<int> d(n, INT_MAX), p(n, -1);
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
+    int src = s - 'A';
+    int dest = d - 'A';
 
-    d[si] = 0;
-    q.push(make_pair(0, si));
+    if (src < 0 || src >= V || dest < 0 || dest >= V) {
+        cout << "Error: Node not found!"<<endl;
+        return;
+    }
 
-    while (!q.empty()) {
-        int dist = q.top().first;
-        int u = q.top().second;
-        q.pop();
+    vector<int> dist(V, INT_MAX), parent(V, -1);
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;
 
-        if (dist > d[u]) continue;
+    dist[src] = 0;
+    pq.push({0, src});
 
-        for (const auto& neighbor : g.getAdjacencyList()[u]) {
-            int v = neighbor.first;
-            int w = neighbor.second;
-            int nd = d[u] + w;
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        pq.pop();
 
-            if (nd < d[v]) {
-                d[v] = nd;
-                p[v] = u;
-                q.push(make_pair(nd, v));
+        for (auto v : adj[u]) {
+            if (dist[u] + v.second < dist[v.first]) {
+                dist[v.first] = dist[u] + v.second;
+                parent[v.first] = u;
+                pq.push({dist[v.first], v.first});
             }
         }
     }
 
-    if (d[ei] == INT_MAX) return r;
-
-    for (int v = ei; v != -1; v = p[v]) {
-        r.path.insert(r.path.begin(), g.getNodeName(v));
+    if (dist[dest] == INT_MAX) {
+        cout << "No path exists"<<endl;
+        return;
     }
 
-    r.totalDistance = d[ei];
-    r.pathExists = true;
-    return r;
+    lastPath.clear();
+    for (int v = dest; v != -1; v = parent[v])
+        lastPath.push_back(v);
+
+    reverse(lastPath.begin(), lastPath.end());
+    lastDistance = dist[dest];
+
+    cout << "\nShortest Path: ";
+    for (int i = 0; i < lastPath.size(); i++) {
+        cout << char(lastPath[i] + 'A');
+        if (i != lastPath.size() - 1) cout << " -> ";
+    }
+    cout << "\nTotal Cost = " << lastDistance << endl;
 }
