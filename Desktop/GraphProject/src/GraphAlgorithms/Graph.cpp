@@ -26,7 +26,7 @@ bool loadGraph(const string& filename) {
 }
 
 void displayGraph() {
-    cout << "\nGraph Edges:"<<endl;
+    cout << endl<<"Graph Edges:"<<endl;
     for (auto e : edges) {
         cout << char(e.u + 'A') << " -- "
              << char(e.v + 'A')

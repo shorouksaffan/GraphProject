@@ -59,10 +59,10 @@ void dijkstra() {
     reverse(lastPath.begin(), lastPath.end());
     lastDistance = dist[dest];
 
-    cout << "\nShortest Path: ";
+    cout << endl<<"Shortest Path: ";
     for (int i = 0; i < lastPath.size(); i++) {
         cout << char(lastPath[i] + 'A');
         if (i != lastPath.size() - 1) cout << " -> ";
     }
-    cout << "\nTotal Cost = " << lastDistance << endl;
+    cout << endl<<"Total Cost = " << lastDistance << endl;
 }

@@ -1,0 +1,3 @@
+Shortest Path:
+A -> C -> B -> D -> E
+Total Cost = 10

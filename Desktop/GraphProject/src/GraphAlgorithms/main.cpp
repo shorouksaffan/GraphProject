@@ -21,7 +21,7 @@ int main() {
     int choice;
      menu();
     while (true) {
-         cout<<endl<< "choose from 1 to 7: ";
+         cout<<endl<< "Choose from 1 to 7: ";
         cin >> choice;
 
         if (choice == 1) {

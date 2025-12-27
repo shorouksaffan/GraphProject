@@ -1,7 +1,0 @@
-=== Shortest Path ===
-
-Total Distance: 10
-
-Path:
------
-A -> C -> B -> D -> E
